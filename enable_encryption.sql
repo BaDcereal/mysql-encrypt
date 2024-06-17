@@ -1,0 +1,1 @@
+ALTER TABLE users ENCRYPTION="Y";

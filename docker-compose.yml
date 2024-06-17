@@ -1,0 +1,24 @@
+services:
+  # MySQL
+  db:
+    image: mysql
+    container_name: mysql
+    ports: 
+        - "3306:3306"
+    environment:
+        MYSQL_DATABASE: ${DB_DATABASE}
+        MYSQL_USER: ${DB_USERNAME}
+        MYSQL_PASSWORD: ${DB_PASSWORD}
+        MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD} 
+        SERVICE_NAME: mysql
+        SERVICE_TAGS: mysql-test
+    command:
+      - --bind-address=0.0.0.0
+    volumes:
+        - ./dbdata:/var/lib/mysql/
+        - ./mysql/my.cnf:/etc/mysql/my.cnf
+        - ./mysql/plugins_conf/mysqld.my:/usr/sbin/mysqld.my:ro
+        - ./mysql/plugins_conf/component_keyring_file.cnf:/usr/lib64/mysql/plugin/component_keyring_file.cnf:rw    
+        - ./mysql/plugins_conf/component_keyring_file:/var/lib/mysql-keyring/component_keyring_file:rw
+    restart: unless-stopped
+    
